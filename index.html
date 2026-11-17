@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>読書会ディスカッションアジェンダテンプレート</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in { animation: fadeIn 0.2s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-amber-50 min-h-screen font-sans">
+
+<header class="bg-amber-800 text-white py-4 px-6 shadow-md">
+  <h1 class="text-xl font-bold tracking-wide">📚 読書会ディスカッションアジェンダ</h1>
+</header>
+
+<main class="max-w-3xl mx-auto px-4 py-6 space-y-6">
+
+  <!-- 基本情報 -->
+  <section class="bg-white rounded-xl shadow p-5" aria-label="基本情報">
+    <h2 class="text-lg font-bold text-amber-900 mb-4 border-b border-amber-200 pb-2">📖 基本情報</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div>
+        <label for="meetingDate" class="block text-sm font-medium text-gray-700 mb-1">開催日</label>
+        <input id="meetingDate" type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" aria-label="開催日" />
+      </div>
+      <div>
+        <label for="bookTitle" class="block text-sm font-medium text-gray-700 mb-1">書籍タイトル</label>
+        <input id="bookTitle" type="text" placeholder="例: 夏目漱石「こころ」" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" aria-label="書籍タイトル" />
+      </div>
+      <div>
+        <label for="bookAuthor" class="block text-sm font-medium text-gray-700 mb-1">著者名</label>
+        <input id="bookAuthor" type="text" placeholder="例: 夏目漱石" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" aria-label="著者名" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ディスカッションセクション -->
+  <section class="bg-white rounded-xl shadow p-5" aria-label="ディスカッションセクション">
+    <h2 class="text-lg font-bold text-amber-900 mb-4 border-b border-amber-200 pb-2">💬 ディスカッション</h2>
+    <div class="space-y-4">
+      <div>
+        <label for="sec1" class="block text-sm font-bold text-amber-800 mb-1">① あらすじ確認</label>
+        <textarea id="sec1" rows="3" placeholder="物語の概要、主なテーマをまとめる..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 resize-y" aria-label="あらすじ確認メモ"></textarea>
+      </div>
+      <div>
+        <label for="sec2" class="block text-sm font-bold text-amber-800 mb-1">② 印象的なシーン</label>
+        <textarea id="sec2" rows="3" placeholder="心に残ったシーン、登場人物の行動や台詞..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 resize-y" aria-label="印象的なシーンメモ"></textarea>
+      </div>
+      <div>
+        <label for="sec3" class="block text-sm font-bold text-amber-800 mb-1">③ 主題討論</label>
+        <textarea id="sec3" rows="3" placeholder="テーマ、メッセージ、現代との関連性..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 resize-y" aria-label="主題討論メモ"></textarea>
+      </div>
+      <div>
+        <label for="sec4" class="block text-sm font-bold text-amber-800 mb-1">④ 次回選書候補</label>
+        <textarea id="sec4" rows="2" placeholder="候補作品タイトル（複数可）..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 resize-y" aria-label="次回選書候補"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- 参加者 -->
+  <section class="bg-white rounded-xl shadow p-5" aria-label="参加者管理">
+    <h2 class="text-lg font-bold text-amber-900 mb-4 border-b border-amber-200 pb-2">👥 参加者</h2>
+    <div id="participantList" class="space-y-3 mb-4"></div>
+    <button id="addParticipantBtn" class="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 text-amber-800 font-medium px-4 py-2 rounded-lg text-sm transition" role="button" aria-label="参加者を追加">
+      ＋ 参加者を追加
+    </button>
+  </section>
+
+  <!-- 次回選書投票 -->
+  <section class="bg-white rounded-xl shadow p-5" aria-label="次回選書投票">
+    <h2 class="text-lg font-bold text-amber-900 mb-4 border-b border-amber-200 pb-2">🗳️ 次回選書投票</h2>
+    <p class="text-sm text-gray-500 mb-3">候補書籍を追加して参加者が投票できます。</p>
+    <div id="bookVoteList" class="space-y-2 mb-4"></div>
+    <div class="flex gap-2">
+      <input id="newBookInput" type="text" placeholder="候補書籍タイトルを入力..." class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" aria-label="候補書籍タイトル" />
+      <button id="addBookBtn" class="bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition" aria-label="候補書籍を追加">追加</button>
+    </div>
+  </section>
+
+  <!-- エクスポート -->
+  <section class="bg-white rounded-xl shadow p-5" aria-label="エクスポート">
+    <h2 class="text-lg font-bold text-amber-900 mb-4 border-b border-amber-200 pb-2">📄 エクスポート</h2>
+    <div class="flex gap-3 flex-wrap">
+      <button id="exportCsvBtn" class="bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2 rounded-lg text-sm transition" aria-label="議事録をCSVでエクスポート">CSVエクスポート</button>
+      <button id="clearBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-5 py-2 rounded-lg text-sm transition" aria-label="フォームをクリア">クリア</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- CSVモーダル -->
+<div id="csvModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" role="dialog" aria-modal="true" aria-label="CSVエクスポートモーダル">
+  <div class="bg-white rounded-xl shadow-xl p-6 max-w-lg w-full mx-4 fade-in">
+    <h3 class="text-lg font-bold text-gray-800 mb-3">CSVエクスポート</h3>
+    <p class="text-sm text-gray-500 mb-2">以下のテキストをコピーしてご利用ください。</p>
+    <textarea id="csvOutput" rows="12" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50 resize-none" aria-label="CSVテキスト出力"></textarea>
+    <div class="flex gap-3 mt-4">
+      <button id="copyCsvBtn" class="bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2 rounded-lg text-sm transition" aria-label="CSVをコピー">コピー</button>
+      <button id="closeModalBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-4 py-2 rounded-lg text-sm transition" aria-label="モーダルを閉じる">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'bookclub_agenda_v1';
+
+  // State
+  let state = {
+    meetingDate: '',
+    bookTitle: '',
+    bookAuthor: '',
+    sec1: '', sec2: '', sec3: '', sec4: '',
+    participants: [],  // {id, name, note}
+    bookCandidates: [] // {id, title, votes: [participantId]}
+  };
+
+  function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+  function load() {
+    try {
+      const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      state = Object.assign(state, d);
+    } catch(e) {}
+  }
+
+  function bindField(id, key) {
+    const el = document.getElementById(id);
+    el.value = state[key] || '';
+    el.addEventListener('input', () => { state[key] = el.value; save(); });
+  }
+
+  function renderParticipants() {
+    const list = document.getElementById('participantList');
+    list.innerHTML = '';
+    state.participants.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'flex gap-2 items-start fade-in';
+      div.innerHTML = `
+        <div class="flex-1 grid grid-cols-2 gap-2">
+          <input type="text" value="${escHtml(p.name)}" placeholder="お名前" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" aria-label="参加者名" data-pid="${p.id /* xss-ok: genId()生成の英数字ID */}" data-field="name" />
+          <input type="text" value="${escHtml(p.note)}" placeholder="メモ（感想・意見など）" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" aria-label="参加者メモ" data-pid="${p.id /* xss-ok: genId()生成の英数字ID */}" data-field="note" />
+        </div>
+        <button class="mt-1 text-red-400 hover:text-red-600 text-lg leading-none" aria-label="参加者を削除" data-delete-pid="${p.id /* xss-ok: genId()生成の英数字ID */}">✕</button>
+      `;
+      list.appendChild(div);
+    });
+
+    list.querySelectorAll('input[data-pid]').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const pid = inp.dataset.pid, field = inp.dataset.field;
+        const p = state.participants.find(x => x.id === pid);
+        if (p) { p[field] = inp.value; save(); }
+      });
+    });
+
+    list.querySelectorAll('button[data-delete-pid]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pid = btn.dataset.deletePid;
+        state.participants = state.participants.filter(x => x.id !== pid);
+        // also remove votes
+        state.bookCandidates.forEach(c => { c.votes = c.votes.filter(v => v !== pid); });
+        save(); renderParticipants(); renderBookVotes();
+      });
+    });
+  }
+
+  function renderBookVotes() {
+    const list = document.getElementById('bookVoteList');
+    list.innerHTML = '';
+    state.bookCandidates.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'border border-gray-200 rounded-lg p-3 fade-in';
+      const voterNames = c.votes.map(vid => {
+        const p = state.participants.find(x => x.id === vid);
+        return p ? escHtml(p.name || '（名前未入力）') : '';
+      }).filter(Boolean);
+
+      div.innerHTML = `
+        <div class="flex items-center gap-3">
+          <span class="flex-1 text-sm font-medium text-gray-800">${escHtml(c.title)}</span>
+          <span class="text-xs text-gray-500 bg-amber-100 px-2 py-1 rounded-full">${c.votes.length} 票</span>
+          <button class="text-red-400 hover:text-red-600 text-sm" aria-label="候補を削除" data-delete-cid="${c.id /* xss-ok: genId()生成の英数字ID */}">✕</button>
+        </div>
+        <div class="mt-2 flex flex-wrap gap-2">
+          ${state.participants.map(p => {
+            const voted = c.votes.includes(p.id);
+            return `<button class="text-xs px-2 py-1 rounded-full border transition vote-btn ${voted ? 'bg-amber-500 text-white border-amber-500' : 'bg-white text-gray-600 border-gray-300 hover:border-amber-400'}" aria-label="${escHtml(p.name || '（名前未入力）')}の投票${voted ? '（済）' : ''}" aria-pressed="${voted /* xss-ok: boolean from includes() */}" data-cid="${c.id /* xss-ok: genId()生成の英数字ID */}" data-pid="${p.id /* xss-ok: genId()生成の英数字ID */}">👍 ${escHtml(p.name || '（名前未入力）')}</button>`;
+          }).join('')}
+        </div>
+        ${voterNames.length ? `<div class="mt-1 text-xs text-gray-400">投票者: ${voterNames.join(', ') /* xss-ok: voterNamesはescHtml()適用済みの配列 */}</div>` : ''}
+      `;
+      list.appendChild(div);
+    });
+
+    list.querySelectorAll('.vote-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cid = btn.dataset.cid, pid = btn.dataset.pid;
+        const c = state.bookCandidates.find(x => x.id === cid);
+        if (!c) return;
+        const idx = c.votes.indexOf(pid);
+        if (idx === -1) c.votes.push(pid); else c.votes.splice(idx, 1);
+        save(); renderBookVotes();
+      });
+    });
+
+    list.querySelectorAll('button[data-delete-cid]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cid = btn.dataset.deleteCid;
+        state.bookCandidates = state.bookCandidates.filter(x => x.id !== cid);
+        save(); renderBookVotes();
+      });
+    });
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function generateCSV() {
+    const rows = [
+      ['項目', '内容'],
+      ['開催日', state.meetingDate],
+      ['書籍タイトル', state.bookTitle],
+      ['著者', state.bookAuthor],
+      ['あらすじ確認', state.sec1],
+      ['印象的なシーン', state.sec2],
+      ['主題討論', state.sec3],
+      ['次回選書候補', state.sec4],
+      [],
+      ['参加者', 'お名前', 'メモ'],
+      ...state.participants.map(p => ['', p.name, p.note]),
+      [],
+      ['次回選書投票', '書籍名', '得票数', '投票者'],
+      ...state.bookCandidates.map(c => {
+        const names = c.votes.map(vid => { const p = state.participants.find(x => x.id === vid); return p ? p.name : ''; }).filter(Boolean).join('・');
+        return ['', c.title, c.votes.length, names];
+      }),
+    ];
+    return rows.map(r => r.map(cell => `"${String(cell || '').replace(/"/g, '""')}"`).join(',')).join('\n');
+  }
+
+  // Init
+  load();
+  ['meetingDate','bookTitle','bookAuthor','sec1','sec2','sec3','sec4'].forEach(k => bindField(k, k));
+  renderParticipants();
+  renderBookVotes();
+
+  document.getElementById('addParticipantBtn').addEventListener('click', () => {
+    state.participants.push({ id: genId(), name: '', note: '' });
+    save(); renderParticipants();
+    const inputs = document.querySelectorAll('#participantList input');
+    if (inputs.length) inputs[inputs.length - 2].focus();
+  });
+
+  document.getElementById('addBookBtn').addEventListener('click', () => {
+    const inp = document.getElementById('newBookInput');
+    const title = inp.value.trim();
+    if (!title) { inp.focus(); return; }
+    state.bookCandidates.push({ id: genId(), title, votes: [] });
+    inp.value = '';
+    save(); renderBookVotes();
+  });
+
+  document.getElementById('newBookInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('addBookBtn').click();
+  });
+
+  document.getElementById('exportCsvBtn').addEventListener('click', () => {
+    document.getElementById('csvOutput').value = generateCSV();
+    document.getElementById('csvModal').classList.remove('hidden');
+    document.getElementById('copyCsvBtn').focus();
+  });
+
+  document.getElementById('copyCsvBtn').addEventListener('click', () => {
+    const ta = document.getElementById('csvOutput');
+    ta.select();
+    document.execCommand('copy');
+    document.getElementById('copyCsvBtn').textContent = 'コピー済！';
+    setTimeout(() => { document.getElementById('copyCsvBtn').textContent = 'コピー'; }, 1800);
+  });
+
+  document.getElementById('closeModalBtn').addEventListener('click', () => {
+    document.getElementById('csvModal').classList.add('hidden');
+  });
+
+  document.getElementById('csvModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('csvModal')) {
+      document.getElementById('csvModal').classList.add('hidden');
+    }
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    if (!confirm('入力内容をすべてクリアしますか？')) return;
+    state = { meetingDate:'', bookTitle:'', bookAuthor:'', sec1:'', sec2:'', sec3:'', sec4:'', participants:[], bookCandidates:[] };
+    save();
+    ['meetingDate','bookTitle','bookAuthor','sec1','sec2','sec3','sec4'].forEach(k => { document.getElementById(k).value = ''; });
+    renderParticipants(); renderBookVotes();
+  });
+</script>
+</body>
+</html>
